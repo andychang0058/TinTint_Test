@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.weihua.tintinttest.R
 import com.weihua.tintinttest.ui.theme.TinTintTestTheme
 
@@ -44,7 +45,7 @@ fun AppToolbar(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 fun HomeToolbarPreview() {
     TinTintTestTheme {

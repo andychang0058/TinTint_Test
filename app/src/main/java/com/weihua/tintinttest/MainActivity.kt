@@ -15,7 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.weihua.tintinttest.ui.TinTintTestApp
-import com.weihua.tintinttest.ui.extensions.isSystemInDarkTheme
+import com.weihua.tintinttest.ui.common.isSystemInDarkTheme
 import com.weihua.tintinttest.ui.theme.TinTintTestTheme
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow

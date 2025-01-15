@@ -1,4 +1,4 @@
-package com.weihua.tintinttest.ui.extensions
+package com.weihua.tintinttest.ui.common
 
 import android.content.Context
 import android.content.res.Configuration

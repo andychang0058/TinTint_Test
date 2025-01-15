@@ -26,6 +26,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.weihua.tintinttest.R
+import com.weihua.tintinttest.ui.home.HomeScreen
+import com.weihua.tintinttest.ui.photo.PhotoScreen
 import com.weihua.tintinttest.ui.theme.TinTintTestTheme
 
 @Composable
@@ -63,19 +65,20 @@ fun TinTintTestApp(isDarkTheme: Boolean) {
                     startDestination = Screen.Home,
                     modifier = Modifier.padding(innerPadding)
                 ) {
-                    composable<Screen.Home>(
-                        exitTransition = null,
-                        popEnterTransition = null,
-                    ) {
-
+                    composable<Screen.Home> {
+                        HomeScreen(
+                            onButtonClick = {
+                                navController.navigate(Screen.Photo)
+                            }
+                        )
                     }
                     composable<Screen.Photo>(
                         enterTransition = { enterTransition },
                         exitTransition = null,
                         popEnterTransition = null,
-                        popExitTransition = { exitTransition }
+                        popExitTransition = { exitTransition },
                     ) {
-
+                        PhotoScreen()
                     }
                 }
             }
