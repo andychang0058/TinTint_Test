@@ -13,28 +13,32 @@ import org.koin.core.annotation.Factory
 class PhotoRepoImpl(
     private val api: JsonPlaceholderApi,
     private val dao: PhotoDao,
-): PhotoRepo {
+) : PhotoRepo {
 
     override suspend fun getPhotos(
         page: Int,
         pageSize: Int
     ): Flow<Result<List<Photo>>> = flow {
-        val startId = ((page - 1) * pageSize) + 1
-        val photos = dao.getPhotosByPage(startId, pageSize)
+        runCatching {
+            val startId = ((page - 1) * pageSize) + 1
+            val photos = dao.getPhotosByPage(startId, pageSize)
 
-        if (photos.isNotEmpty()) {
-            emit(Result.success(photos.map { it.toPhoto() }))
-            return@flow
-        }
-
-        api.getPhotos().fold(
-            onSuccess = { photos ->
-                dao.insertAll(photos.map { it.toPhotoEntity() })
-                emit(Result.success(photos))
-            },
-            onFailure = { error ->
-                emit(Result.failure(error))
+            if (photos.isNotEmpty()) {
+                emit(Result.success(photos.map { it.toPhoto() }))
+                return@flow
             }
-        )
+
+            api.getPhotos().fold(
+                onSuccess = { photos ->
+                    dao.insertAll(photos.map { it.toPhotoEntity() })
+                    emit(Result.success(photos.subList(startId - 1, startId + pageSize - 1)))
+                },
+                onFailure = { error ->
+                    emit(Result.failure(error))
+                }
+            )
+        }.onFailure {
+            emit(Result.failure(it))
+        }
     }
 }
