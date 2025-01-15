@@ -1,7 +1,9 @@
 package com.weihua.tintinttest.ui.photo
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,16 +25,18 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.weihua.tintinttest.ui.theme.TinTintTestTheme
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun PhotoCell(
     id: String,
     title: String,
-    thumbnailUrl: String,
+    hex: String,
 ) {
-    Box(
+    BoxWithConstraints(
         modifier = Modifier.fillMaxWidth().aspectRatio(1f / 1f),
         contentAlignment = Alignment.Center,
     ) {
+        val thumbnailUrl = rememberHexPlaceholderUrl(hex = hex)
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant),
@@ -77,7 +81,7 @@ fun PhotoCellPreview() {
             PhotoCell(
                 id = "1",
                 title = "Photo 1",
-                thumbnailUrl = "https://via.placeholder.com/150"
+                hex = "#000000"
             )
         }
     }

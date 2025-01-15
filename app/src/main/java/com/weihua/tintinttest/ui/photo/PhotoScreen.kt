@@ -57,8 +57,6 @@ fun PhotoScreen() {
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .pullRefresh(pullRefreshState),

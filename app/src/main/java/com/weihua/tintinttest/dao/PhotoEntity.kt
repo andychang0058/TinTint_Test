@@ -12,7 +12,7 @@ data class PhotoEntity(
     @ColumnInfo(name = "album_id") val albumId: Int,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "url") val url: String,
-    @ColumnInfo(name = "thumbnail_url") val thumbnailUrl: String
+    @ColumnInfo(name = "hex") val hex: String
 )
 
 fun PhotoEntity.toPhoto(): Photo {
@@ -21,7 +21,7 @@ fun PhotoEntity.toPhoto(): Photo {
         albumId = albumId,
         title = title,
         url = url,
-        thumbnailUrl = thumbnailUrl
+        hex = hex,
     )
 }
 
@@ -31,6 +31,6 @@ fun Photo.toPhotoEntity(): PhotoEntity {
         albumId = albumId,
         title = title,
         url = url,
-        thumbnailUrl = thumbnailUrl
+        hex = hex
     )
 }
