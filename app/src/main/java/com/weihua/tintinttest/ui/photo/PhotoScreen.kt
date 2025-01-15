@@ -1,6 +1,5 @@
 package com.weihua.tintinttest.ui.photo
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,10 +24,9 @@ import com.weihua.tintinttest.R
 import com.weihua.tintinttest.api.jsonplaceholder.model.Photo
 import com.weihua.tintinttest.common.LoadState
 import com.weihua.tintinttest.common.UiState
+import com.weihua.tintinttest.ui.common.ObserveBottomReached
 import com.weihua.tintinttest.ui.common.ScreenError
 import com.weihua.tintinttest.ui.common.loadMoreUiState
-import com.weihua.tintinttest.ui.common.refreshUiState
-import com.weihua.tintinttest.ui.common.ObserveBottomReached
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -68,16 +66,17 @@ fun PhotoScreen() {
         ) {
             photos(photos = uiState.data)
 
-            refreshUiState(
-                uiState = uiState,
-                onRetry = { viewModel.retry() }
-            )
             loadMoreUiState(
                 uiState = uiState,
                 isEmpty = uiState.data.isNullOrEmpty(),
                 onRetry = { viewModel.loadMore(isRetry = true) }
             )
         }
+
+        RefreshErrorUiState(
+            uiState = uiState,
+            onRetry = { viewModel.retry() }
+        )
 
         EmptyUiState(
             uiState = uiState,
@@ -104,6 +103,18 @@ fun EmptyUiState(uiState: UiState<List<Photo>>, onRetry: () -> Unit) {
     )
 }
 
+@Composable
+fun RefreshErrorUiState(uiState: UiState<List<Photo>>, onRetry: () -> Unit) {
+    if (uiState.state !is LoadState.RefreshError) {
+        return
+    }
+    ScreenError(
+        modifier = Modifier.fillMaxSize(),
+        message = stringResource(R.string.error_occurred),
+        onRetry = onRetry,
+    )
+}
+
 private fun LazyGridScope.photos(photos: List<Photo>? = null) {
     items(
         count = photos?.size ?: 0,
@@ -114,7 +125,7 @@ private fun LazyGridScope.photos(photos: List<Photo>? = null) {
         PhotoCell(
             id = photo.id.toString(),
             title = photo.title,
-            thumbnailUrl = photo.thumbnailUrl,
+            hex = photo.hex,
         )
     }
 }
