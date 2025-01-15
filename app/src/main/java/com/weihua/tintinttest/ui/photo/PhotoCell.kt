@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.weihua.tintinttest.ui.theme.TinTintTestTheme
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -42,6 +43,7 @@ fun PhotoCell(
             placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(thumbnailUrl)
+                .crossfade(true)
                 .build(),
             contentDescription = "Cover Image",
             contentScale = ContentScale.Fit,
